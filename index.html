@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- What did you expect to find here? -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viktor Esadze</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { min-height: 100vh; transition: all 0.3s; overflow: hidden; }
+#page { min-height: 100vh; }
+#shuffle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 9999;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #666;
+    font-family: 'Courier New', monospace;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+#shuffle-btn:hover { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="page"></div>
+<button id="shuffle-btn">I don't like the design</button>
+
+<script>
+var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
+var EMAIL = 'viktoresadze@gmail.com';
+
+var styles = [
+
+// 0 — Blank README (default)
+{
+css: `
+body { font-family: 'Courier New', monospace; font-size: 13px; color: #222; background: #fdfdfd; padding: 30px 40px; line-height: 1.7; }
+#page pre a { color: #0000EE; }
+#shuffle-btn { background: #f5f5f5; color: #666; border: 1px solid #ccc; }
+`,
+html: `<pre>
+VIKTOR ESADZE
+==============
+
+linkedin .. <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a>
+email ..... <a href="mailto:${EMAIL}">${EMAIL}</a>
+</pre>`
+},
+
+// 1 — Craigslist
+{
+css: `
+body { font-family: Arial, sans-serif; font-size: 13px; color: #000; background: #f6f2ee; padding: 20px; }
+#page { max-width: 600px; }
+#page a { color: #339; }
+#page h2 { font-size: 16px; color: #000; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 10px; }
+.cl-row { padding: 3px 0; }
+.cl-date { color: #888; font-size: 11px; margin-right: 8px; }
+.cl-footer { margin-top: 30px; font-size: 10px; color: #aaa; border-top: 1px solid #ddd; padding-top: 8px; }
+#shuffle-btn { background: #f6f2ee; color: #999; border: 1px solid #ccc; }
+`,
+html: `
+<h2>viktor esadze</h2>
+<div class="cl-row"><span class="cl-date">apr 6</span> <a href="${LINKEDIN}" target="_blank">linkedin profile</a></div>
+<div class="cl-row"><span class="cl-date">apr 6</span> <a href="mailto:${EMAIL}">email: ${EMAIL}</a></div>
+<div class="cl-footer">posting id: 4721 &bull; posted 2026-04-06</div>
+`
+},
+
+// 2 — Early Google (with search bar)
+{
+css: `
+body { font-family: Arial, sans-serif; font-size: 13px; color: #000; background: #fff; text-align: center; padding-top: 140px; }
+#page h1 { font-size: 56px; font-weight: normal; margin-bottom: 20px; }
+#page h1 span:nth-child(1) { color: #4285F4; }
+#page h1 span:nth-child(2) { color: #EA4335; }
+#page h1 span:nth-child(3) { color: #FBBC05; }
+#page h1 span:nth-child(4) { color: #4285F4; }
+#page h1 span:nth-child(5) { color: #34A853; }
+#page h1 span:nth-child(6) { color: #EA4335; }
+.g-search { margin: 20px auto; max-width: 480px; }
+.g-search input { width: 100%; padding: 10px 16px; font-size: 15px; border: 1px solid #dfe1e5; border-radius: 24px; outline: none; }
+.g-search input:focus { box-shadow: 0 1px 6px rgba(32,33,36,.28); border-color: rgba(223,225,229,0); }
+.g-links { margin-top: 18px; font-size: 13px; }
+.g-links a { background: #f8f9fa; border: 1px solid #f8f9fa; border-radius: 4px; color: #3c4043; font-size: 13px; padding: 8px 16px; margin: 4px; text-decoration: none; display: inline-block; }
+.g-links a:hover { border-color: #dadce0; box-shadow: 0 1px 1px rgba(0,0,0,.1); }
+#shuffle-btn { background: #fff; color: #70757a; border: 1px solid #ddd; }
+`,
+html: `
+<h1><span>V</span><span>i</span><span>k</span><span>t</span><span>o</span><span>r</span></h1>
+<div class="g-search">
+    <input type="text" id="g-input" placeholder="Search Viktor Esadze...">
+</div>
+<div class="g-links">
+    <a href="${LINKEDIN}" target="_blank">LinkedIn</a>
+    <a href="mailto:${EMAIL}">Email</a>
+</div>
+`
+},
+
+// 3 — ICQ Chat
+{
+css: `
+body { font-family: Tahoma, Arial, sans-serif; font-size: 11px; color: #000; background: #e0e0e0; padding: 20px; display: flex; justify-content: center; align-items: center; }
+#page { width: 340px; margin-top: 20px; }
+.icq-window { background: #f0f0f0; border: 1px solid #888; border-radius: 4px; overflow: hidden; box-shadow: 2px 2px 8px rgba(0,0,0,0.2); }
+.icq-header { background: linear-gradient(180deg, #6fbf4a, #4a9e2f); padding: 6px 10px; display: flex; align-items: center; gap: 8px; }
+.icq-flower { font-size: 18px; }
+.icq-header-text { color: #fff; font-weight: bold; font-size: 12px; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); }
+.icq-header-sub { color: #d4ffc4; font-size: 9px; font-weight: normal; }
+.icq-toolbar { background: #e8e8e8; border-bottom: 1px solid #ccc; padding: 3px 8px; font-size: 10px; color: #666; display: flex; gap: 10px; }
+.icq-chat { background: #fff; height: 260px; overflow-y: auto; padding: 8px; border-bottom: 1px solid #ddd; }
+.icq-msg { margin-bottom: 8px; font-size: 11px; line-height: 1.5; }
+.icq-msg .icq-from { font-weight: bold; }
+.icq-msg .icq-time { color: #aaa; font-size: 9px; margin-left: 4px; }
+.icq-from-v { color: #2a7d0f; }
+.icq-from-me { color: #0055cc; }
+.icq-chat a { color: #2a7d0f; text-decoration: none; }
+.icq-chat a:hover { text-decoration: underline; }
+.icq-input-area { padding: 6px 8px; background: #f0f0f0; display: flex; gap: 4px; }
+.icq-input-area input { flex: 1; border: 1px solid #aaa; padding: 4px 6px; font-size: 11px; font-family: Tahoma; outline: none; border-radius: 2px; }
+.icq-input-area input:focus { border-color: #4a9e2f; }
+.icq-send { background: linear-gradient(180deg, #7fd35a, #5ab838); border: 1px solid #4a9e2f; border-radius: 3px; color: #fff; font-size: 10px; padding: 4px 10px; cursor: pointer; font-family: Tahoma; }
+.icq-send:hover { background: linear-gradient(180deg, #8de068, #66c442); }
+.icq-footer { padding: 3px 10px; background: #e8e8e8; border-top: 1px solid #ccc; font-size: 9px; color: #aaa; text-align: center; }
+#shuffle-btn { background: #e0e0e0; color: #888; border: 1px solid #aaa; }
+`,
+html: `
+<div class="icq-window">
+    <div class="icq-header">
+        <span class="icq-flower">&#127804;</span>
+        <div>
+            <div class="icq-header-text">Viktor Esadze <span style="font-weight:normal;font-size:9px;color:#d4ffc4;">&#9679; Online</span></div>
+            <div class="icq-header-sub">UIN: 47210036</div>
+        </div>
+    </div>
+    <div class="icq-toolbar"><span>File</span><span>Edit</span><span>Actions</span><span>Help</span></div>
+    <div class="icq-chat" id="icq-chat">
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:30</span><br>hey! welcome to my page</div>
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:30</span><br>you can find me here:</div>
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:31</span><br>linkedin: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a></div>
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:31</span><br>email: <a href="mailto:${EMAIL}">${EMAIL}</a></div>
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:32</span><br>feel free to say something :)</div>
+    </div>
+    <div class="icq-input-area">
+        <input type="text" id="icq-input" placeholder="Type a message...">
+        <button class="icq-send" id="icq-send">Send</button>
+    </div>
+    <div class="icq-footer">ICQ 2003b</div>
+</div>
+`,
+init: function() {
+    var input = document.getElementById('icq-input');
+    var btn = document.getElementById('icq-send');
+    var chat = document.getElementById('icq-chat');
+    if (!input || !btn || !chat) return;
+    function send() {
+        if (!input.value.trim()) return;
+        var now = new Date();
+        var h = now.getHours(); var m = now.getMinutes();
+        var ts = (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+        var msg = input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        chat.innerHTML += '<div class="icq-msg"><span class="icq-from icq-from-me">You</span><span class="icq-time">'+ts+'</span><br>'+msg+'</div>';
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
+    }
+    btn.addEventListener('click', send);
+    input.addEventListener('keydown', function(e) { if (e.key==='Enter') send(); });
+}
+},
+
+// 4 — IRC (interactive)
+{
+css: `
+body { font-family: 'Courier New', monospace; font-size: 13px; color: #aaa; background: #0a0a0a; padding: 20px 30px; line-height: 1.8; overflow: auto; }
+#page a { color: #5af; text-decoration: none; }
+#page a:hover { text-decoration: underline; }
+.nick { color: #e77; }
+.server { color: #5a5; }
+.time { color: #666; }
+.action { color: #a7a; font-style: italic; }
+#irc-log { margin-bottom: 12px; }
+#irc-input-row { display: flex; gap: 8px; align-items: center; }
+#irc-input-row span { color: #e77; }
+#irc-input { flex: 1; background: #111; border: 1px solid #333; color: #aaa; font-family: 'Courier New', monospace; font-size: 13px; padding: 4px 8px; outline: none; }
+#irc-input:focus { border-color: #5af; }
+#shuffle-btn { background: #1a1a1a; color: #555; border: 1px solid #333; }
+`,
+html: `
+<div id="irc-log">
+<span class="time">[00:01]</span> <span class="server">-!-</span> connected to irc.freenode.net<br>
+<span class="time">[00:01]</span> <span class="server">-!-</span> joined #aboutme<br>
+<span class="time">[00:01]</span> <span class="server">-!-</span> topic: Viktor Esadze<br>
+<span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> hey<br>
+<span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> linkedin: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a><br>
+<span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> email: <a href="mailto:${EMAIL}">${EMAIL}</a><br>
+<span class="time">[00:03]</span> <span class="action">* viktor is away (afk)</span><br>
+</div>
+<div id="irc-input-row">
+    <span>&lt;visitor&gt;</span>
+    <input type="text" id="irc-input" placeholder="type something..." autofocus>
+</div>
+`,
+init: function() {
+    var input = document.getElementById('irc-input');
+    if (!input) return;
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && this.value.trim()) {
+            var log = document.getElementById('irc-log');
+            var now = new Date();
+            var h = now.getHours(); var m = now.getMinutes();
+            var ts = (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+            var msg = this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            log.innerHTML += '<span class="time">['+ts+']</span> <span class="nick">&lt;visitor&gt;</span> '+msg+'<br>';
+            this.value = '';
+        }
+    });
+}
+},
+
+// 5 — Tumblr
+{
+css: `
+body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; color: #444; background: #2c3e50; padding: 0; }
+#page { max-width: 420px; margin: 50px auto; }
+.tm-card { background: #fff; border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
+.tm-header { padding: 12px 16px; font-size: 11px; color: #888; display: flex; align-items: center; gap: 8px; }
+.tm-avatar { width: 28px; height: 28px; border-radius: 50%; background: #35a7e0; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 13px; }
+.tm-user { color: #444; font-weight: bold; }
+.tm-body { padding: 0 16px 16px; font-size: 14px; line-height: 1.6; color: #222; }
+.tm-reblog { border-left: 3px solid #ddd; margin: 8px 0; padding: 4px 12px; font-size: 13px; color: #777; }
+.tm-reblog b { color: #444; }
+.tm-links { padding: 8px 16px; font-size: 12px; }
+.tm-links a { color: #35a7e0; text-decoration: none; margin-right: 12px; }
+.tm-links a:hover { text-decoration: underline; }
+.tm-notes { padding: 8px 16px; font-size: 11px; color: #aaa; border-top: 1px solid #f0f0f0; }
+.tm-name { background: #fff; border-radius: 3px; padding: 20px; text-align: center; margin-bottom: 14px; }
+.tm-name h1 { font-size: 20px; font-weight: 300; letter-spacing: 2px; color: #222; text-transform: uppercase; margin-bottom: 4px; }
+.tm-name p { color: #aaa; font-size: 12px; }
+#shuffle-btn { background: #fff; color: #aaa; border: 1px solid #ddd; }
+`,
+html: `
+<div class="tm-name">
+    <h1>Viktor Esadze</h1>
+    <p>hello</p>
+</div>
+<div class="tm-card">
+    <div class="tm-header"><div class="tm-avatar">V</div><span class="tm-user">viktoresadze</span></div>
+    <div class="tm-body">
+        thinking about redesigning my website again
+        <div class="tm-reblog"><b>anonymous</b> asked: where can people reach you?</div>
+        linkedin: <a href="${LINKEDIN}" target="_blank" style="color:#35a7e0;">linkedin.com/in/viktoresadze</a><br>
+        email: <a href="mailto:${EMAIL}" style="color:#35a7e0;">${EMAIL}</a>
+    </div>
+    <div class="tm-links">
+        <a href="#">&#9829; 47</a>
+        <a href="#">&#8634; reblog</a>
+    </div>
+    <div class="tm-notes">47 notes</div>
+</div>
+`
+},
+
+
+// 7 — phpBB Forum
+{
+css: `
+body { font-family: Verdana, Arial, sans-serif; font-size: 11px; color: #000; background: #e5e5e5; padding: 10px; }
+#page { max-width: 640px; margin: 20px auto; }
+.bb-header { background: #006699; color: #fff; padding: 8px 12px; font-size: 14px; font-weight: bold; border-radius: 4px 4px 0 0; }
+.bb-body { background: #fff; border: 1px solid #bbb; padding: 14px; }
+.bb-table { width: 100%; border-collapse: collapse; }
+.bb-table td { padding: 5px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+.bb-label { color: #666; font-weight: bold; width: 120px; }
+#page a { color: #006699; }
+.bb-sig { border-top: 1px dashed #ccc; margin-top: 14px; padding-top: 8px; font-size: 10px; color: #999; font-style: italic; }
+.bb-avatar { width: 80px; height: 80px; background: #ddd; border: 1px solid #bbb; display: flex; align-items: center; justify-content: center; color: #999; font-size: 28px; margin-bottom: 8px; }
+#shuffle-btn { background: #e5e5e5; color: #666; border: 1px solid #bbb; }
+`,
+html: `
+<div class="bb-header">View Profile: Viktor Esadze</div>
+<div class="bb-body">
+    <div class="bb-avatar">V</div>
+    <table class="bb-table">
+        <tr><td class="bb-label">Username:</td><td>viktoresadze</td></tr>
+        <tr><td class="bb-label">Rank:</td><td>Senior Member</td></tr>
+        <tr><td class="bb-label">Posts:</td><td>4,721</td></tr>
+        <tr><td class="bb-label">Joined:</td><td>06 Apr 2003</td></tr>
+        <tr><td class="bb-label">Website:</td><td><a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a></td></tr>
+        <tr><td class="bb-label">Email:</td><td><a href="mailto:${EMAIL}">${EMAIL}</a></td></tr>
+    </table>
+    <div class="bb-sig">-- Viktor Esadze</div>
+</div>
+`
+},
+
+// 8 — Yahoo! Answers
+{
+css: `
+body { font-family: Arial, sans-serif; font-size: 13px; color: #333; background: #fff; padding: 0; }
+#page { max-width: 640px; margin: 20px auto; }
+.ya-header { background: #400090; padding: 8px 14px; color: #fff; font-size: 18px; font-weight: bold; }
+.ya-header span { font-size: 11px; font-weight: normal; }
+.ya-body { padding: 16px; border: 1px solid #ddd; }
+.ya-q { font-size: 17px; color: #1a0a60; margin-bottom: 4px; }
+.ya-meta { font-size: 11px; color: #888; margin-bottom: 16px; }
+.ya-best { border: 2px solid #2ba749; border-radius: 4px; padding: 12px; background: #f6fff6; }
+.ya-best-label { color: #2ba749; font-weight: bold; font-size: 12px; margin-bottom: 6px; }
+#page a { color: #0a2cba; }
+.ya-stars { color: #f5a623; font-size: 14px; }
+.ya-footer { font-size: 10px; color: #aaa; margin-top: 16px; border-top: 1px solid #eee; padding-top: 8px; }
+#shuffle-btn { background: #fff; color: #888; border: 1px solid #ddd; }
+`,
+html: `
+<div class="ya-header">Yahoo! Answers <span>Home &gt; People</span></div>
+<div class="ya-body">
+    <div class="ya-q">Who is Viktor Esadze?</div>
+    <div class="ya-meta">Asked by anonymous &bull; 23 years ago</div>
+    <div class="ya-best">
+        <div class="ya-best-label">&#10003; Best Answer - Chosen by Asker</div>
+        <b>Viktor Esadze</b> is a person on the internet.<br><br>
+        LinkedIn: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a><br>
+        Email: <a href="mailto:${EMAIL}">${EMAIL}</a><br><br>
+        <span class="ya-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <span style="font-size:11px;color:#888;">(1 rating)</span>
+    </div>
+    <div class="ya-footer">1 answer &bull; Category: People &bull; Status: Resolved</div>
+</div>
+`
+},
+
+// 9 — GeoCities
+{
+css: `
+body { margin: 0; padding: 0; overflow: auto; background-color: #0a0a1a; background-image: radial-gradient(circle at 20% 30%, rgba(0,100,255,0.06) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(0,200,100,0.04) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg width='8' height='8' viewBox='0 0 8 8' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23ffffff' opacity='0.15'/%3E%3Ccircle cx='5' cy='5' r='0.3' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E"); font-family: 'Times New Roman', serif; color: #fff; }
+#page a { color: #ffcc00; } #page a:hover { color: #0f0; }
+.gc-page { max-width: 680px; margin: 0 auto; padding: 10px; }
+.gc-header { text-align: center; padding: 20px 10px; background: linear-gradient(180deg, #000a14, #0a1a2a); border-bottom: 4px ridge #336699; }
+.gc-header h1 { font-family: 'Comic Sans MS', cursive; font-size: 38px; color: #ff6600; text-shadow: 3px 3px 0 #cc0000, -1px -1px 0 #ffcc00; margin: 0; }
+.gc-header .gc-sub { font-family: 'Comic Sans MS', cursive; color: #00ffff; font-size: 16px; margin-top: 4px; }
+.gc-rainbow { height: 6px; background: linear-gradient(90deg, #f00,#f70,#ff0,#0f0,#07f,#80f,#f08,#f00,#f70,#ff0,#0f0,#07f,#80f,#f08); background-size: 200% 100%; animation: gcRainbow 3s linear infinite; margin: 12px 0; border: 1px solid #000; }
+@keyframes gcRainbow { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+.gc-table { width: 100%; border: 4px ridge #336699; background: rgba(0,0,0,0.4); border-collapse: separate; }
+.gc-sidebar { width: 140px; border-right: 3px ridge #336699; background: rgba(0,0,0,0.3); padding: 10px; font-family: 'Comic Sans MS', cursive; font-size: 13px; }
+.gc-sidebar a { display: block; color: #ffcc00; text-decoration: none; padding: 5px 4px; border-bottom: 1px dotted #345; }
+.gc-sidebar .gc-nav-hdr { color: #ff6600; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+.gc-content { padding: 16px 20px; vertical-align: top; }
+.gc-construction { text-align: center; padding: 10px; background: repeating-linear-gradient(45deg,#fc0,#fc0 10px,#000 10px,#000 20px); border: 2px ridge #808080; margin: 12px 0; }
+.gc-construction span { background: #000; color: #f00; font-family: 'Comic Sans MS', cursive; font-size: 18px; font-weight: bold; padding: 6px 16px; display: inline-block; animation: gcBlink 0.8s step-end infinite; }
+@keyframes gcBlink { 50%{ color:#ff0; } }
+.gc-section { font-family: 'Comic Sans MS', cursive; font-size: 20px; color: #0f0; text-shadow: 1px 1px 0 #060; margin-bottom: 6px; }
+.gc-about { font-size: 15px; line-height: 1.7; font-family: Verdana, sans-serif; color: #ccf; }
+.gc-sparkle { text-align: center; font-size: 12px; letter-spacing: 6px; padding: 6px 0; animation: gcSparkle 1.5s ease-in-out infinite; color: #fc0; }
+@keyframes gcSparkle { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.gc-links a { display: block; padding: 3px 0; font-size: 14px; font-family: 'Comic Sans MS', cursive; }
+.gc-links a::before { content: '>> '; color: #f0f; }
+.gc-gb { background: rgba(0,0,0,0.3); border: 2px inset #666; padding: 12px; margin-top: 8px; }
+.gc-gb-title { font-family: 'Comic Sans MS', cursive; font-size: 18px; color: #6cf; text-align: center; margin-bottom: 8px; }
+.gc-gb-form { margin-top: 10px; text-align: center; }
+.gc-gb-form input, .gc-gb-form textarea { background: #0a1a2a; color: #0f0; border: 2px inset #808080; font-family: 'Courier New', monospace; font-size: 12px; padding: 4px; width: 80%; margin: 3px 0; }
+.gc-gb-form textarea { height: 40px; resize: none; }
+.gc-gb-form button { background: #c0c0c0; border: 2px outset #fff; font-family: 'Comic Sans MS', cursive; font-size: 12px; padding: 4px 16px; cursor: pointer; color: #000; margin-top: 4px; }
+.gc-gb-entry { background: rgba(255,255,255,0.06); border: 1px solid #666; padding: 8px; margin: 6px 0; font-family: Verdana; font-size: 12px; }
+.gc-gb-entry .gn { color: #0ff; font-weight: bold; }
+.gc-gb-entry .gd { color: #999; font-size: 10px; float: right; }
+.gc-gb-entry .gm { color: #ccc; margin-top: 4px; }
+.gc-counter { text-align: center; margin: 12px 0; font-size: 11px; color: #888; font-family: Verdana; }
+.gc-hit { display: inline-block; background: #000; border: 2px inset #444; padding: 3px 12px; font-family: 'Courier New', monospace; font-size: 16px; color: #0f0; letter-spacing: 3px; margin-top: 4px; }
+.gc-badges { text-align: center; margin: 12px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.gc-badge { display: inline-block; border: 2px outset #808080; background: #d0d0d0; color: #006; padding: 3px 8px; font-size: 9px; font-family: Verdana; font-weight: bold; text-align: center; line-height: 1.3; }
+.gc-marquee { overflow: hidden; background: #000033; border: 2px groove #96c; padding: 4px 0; margin: 10px 0; }
+.gc-marquee span { display: inline-block; white-space: nowrap; animation: gcScroll 14s linear infinite; font-family: 'Comic Sans MS', cursive; color: #0ff; font-size: 13px; }
+@keyframes gcScroll { 0%{transform:translateX(100%)} 100%{transform:translateX(-100%)} }
+#shuffle-btn { background: #0a0a1a; color: #808080; border: 1px solid #336699; }
+`,
+html: `
+<div class="gc-page">
+    <div class="gc-header">
+        <div style="font-size:12px;color:#999;font-family:Verdana;margin-bottom:8px;">~ Welcome to GeoCities / Area51 / Vault / 7743 ~</div>
+        <h1>~*Viktor Esadze*~</h1>
+        <div class="gc-sub">My Personal Home Page On The World Wide Web</div>
+    </div>
+    <div class="gc-marquee"><span>+++ Welcome to my site! +++ This page is always under construction!! +++ Sign my guestbook!! +++ You are visitor #4,721 +++ Last updated April 2026 +++</span></div>
+    <table class="gc-table"><tr>
+        <td class="gc-sidebar">
+            <div class="gc-nav-hdr">Navigation</div>
+            <a href="#">Home</a><a href="#">About Me</a><a href="#">Links</a><a href="#">Guestbook</a>
+            <a href="${LINKEDIN}" target="_blank">LinkedIn</a>
+        </td>
+        <td class="gc-content">
+            <div class="gc-construction"><span>!! UNDER CONSTRUCTION !!</span></div>
+            <div class="gc-rainbow"></div>
+            <div class="gc-section">About Me</div>
+            <div class="gc-about">Hey!! Thanks for stopping by my page!! My name is <b style="color:#fff;">Viktor</b> and this is my little corner of the internet. I'm still working on this site so check back later for updates!!</div>
+            <div class="gc-sparkle">* * * * * * * * * * *</div>
+            <div class="gc-section">Cool Links</div>
+            <div class="gc-links">
+                <a href="${LINKEDIN}" target="_blank">My LinkedIn Profile</a>
+                <a href="mailto:${EMAIL}">${EMAIL}</a>
+            </div>
+            <div class="gc-rainbow"></div>
+            <div class="gc-gb">
+                <div class="gc-gb-title">Guestbook</div>
+                <div class="gc-gb-entry"><span class="gn">xX_DarkAngel_Xx</span><span class="gd">03/15/2003</span><div class="gm">Cool site dude!! Love the background. Check out my page too!!</div></div>
+                <div class="gc-gb-entry"><span class="gn">~*SuNfLoWeR*~</span><span class="gd">02/28/2003</span><div class="gm">Hey!! Found ur page from the webring. Signed ur guestbook!! Sign mine back plz?? =)</div></div>
+                <div class="gc-gb-entry"><span class="gn">h4ck3rm4n</span><span class="gd">01/10/2003</span><div class="gm">nice page. u should add some midi music tho. 10/10</div></div>
+            </div>
+            <div id="gc-new-entries"></div>
+            <div class="gc-gb-form">
+                <div style="color:#6cf;font-family:'Comic Sans MS',cursive;margin-bottom:6px;">Sign my Guestbook!!</div>
+                <input type="text" id="gc-gb-name" placeholder="Your Name"><br>
+                <textarea id="gc-gb-msg" placeholder="Your Message"></textarea><br>
+                <button id="gc-gb-btn">Sign It!!</button>
+            </div>
+            <div class="gc-counter">You are visitor number:<br><span class="gc-hit">004721</span></div>
+            <div class="gc-badges">
+                <span class="gc-badge">Best Viewed With<br>Internet Explorer 5.0</span>
+                <span class="gc-badge">Made With<br>Notepad</span>
+                <span class="gc-badge">GeoCities<br>Homesteader</span>
+                <span class="gc-badge">This Site Is<br>Y2K Ready!!</span>
+            </div>
+            <div style="text-align:center;font-size:11px;color:#666;font-family:Verdana;margin-top:10px;">&copy; 2003 Viktor Esadze. All rights reserved.</div>
+        </td>
+    </tr></table>
+</div>
+`,
+init: function() {
+    var btn = document.getElementById('gc-gb-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        var name = document.getElementById('gc-gb-name');
+        var msg = document.getElementById('gc-gb-msg');
+        if (!name.value.trim() || !msg.value.trim()) return;
+        var d = new Date();
+        var ds = (d.getMonth()+1<10?'0':'')+(d.getMonth()+1)+'/'+(d.getDate()<10?'0':'')+d.getDate()+'/'+d.getFullYear();
+        var n = name.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        var m = msg.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        var el = document.getElementById('gc-new-entries');
+        el.innerHTML += '<div class="gc-gb-entry"><span class="gn">'+n+'</span><span class="gd">'+ds+'</span><div class="gm">'+m+'</div></div>';
+        name.value = ''; msg.value = '';
+    });
+}
+},
+
+// 10 — Windows 98
+{
+css: `
+body { width: 100vw; height: 100vh; overflow: hidden; font-family: Tahoma, 'MS Sans Serif', sans-serif; font-size: 11px; background: #008080; user-select: none; cursor: default; }
+.w98-desktop { padding: 16px; height: calc(100vh - 32px); display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.w98-icon { display: flex; flex-direction: column; align-items: center; width: 70px; padding: 4px; cursor: pointer; text-decoration: none; }
+.w98-icon:hover .w98-icon-label { background: #000080; color: #fff; }
+.w98-icon svg { width: 32px; height: 32px; margin-bottom: 2px; }
+.w98-icon-label { color: #fff; text-align: center; font-size: 11px; padding: 1px 3px; text-shadow: 1px 1px 1px #000; }
+.w98-win { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 520px; background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; box-shadow: 1px 1px 0 0 #000; display: flex; flex-direction: column; }
+.w98-titlebar { background: linear-gradient(90deg,#000080,#1084d0); color: #fff; font-weight: bold; font-size: 11px; padding: 3px 4px; display: flex; align-items: center; justify-content: space-between; }
+.w98-titlebar-btns { display: flex; gap: 2px; }
+.w98-titlebar-btns button { width: 16px; height: 14px; background: #c0c0c0; border: 1px solid; border-color: #fff #808080 #808080 #fff; font-size: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.w98-menu { background: #c0c0c0; padding: 2px 0; border-bottom: 1px solid #808080; display: flex; }
+.w98-menu span { padding: 2px 8px; cursor: pointer; }
+.w98-menu span:hover { background: #000080; color: #fff; }
+.w98-notepad { background: #fff; color: #000; font-family: 'Lucida Console','Courier New', monospace; font-size: 13px; padding: 6px; margin: 3px; border: 1px solid; border-color: #808080 #fff #fff #808080; min-height: 220px; line-height: 1.6; white-space: pre-wrap; }
+.w98-notepad a { color: #00f; }
+.w98-statusbar { background: #c0c0c0; border-top: 1px solid #808080; padding: 2px 6px; font-size: 10px; color: #444; display: flex; justify-content: space-between; }
+.w98-statusbar div { border: 1px solid; border-color: #808080 #fff #fff #808080; padding: 1px 6px; }
+.w98-taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 32px; background: #c0c0c0; border-top: 2px solid #fff; display: flex; align-items: center; padding: 2px 4px; gap: 4px; z-index: 1000; }
+.w98-start { height: 24px; background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; padding: 0 8px; font-weight: bold; font-size: 11px; font-family: Tahoma; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+.w98-taskdiv { width: 2px; height: 22px; border-left: 1px solid #808080; border-right: 1px solid #fff; margin: 0 2px; }
+.w98-taskbtn { height: 24px; background: #c0c0c0; border: 2px solid; border-color: #808080 #fff #fff #808080; padding: 0 10px; font-size: 11px; font-family: Tahoma; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+.w98-clock { margin-left: auto; border: 1px solid; border-color: #808080 #fff #fff #808080; padding: 2px 10px; font-size: 11px; }
+.w98-startmenu { display: none; position: fixed; bottom: 32px; left: 0; width: 200px; background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; box-shadow: 2px -2px 4px rgba(0,0,0,0.2); z-index: 1001; }
+.w98-startmenu.open { display: block; }
+.w98-sm-sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 22px; background: linear-gradient(0deg, #000080, #1084d0); }
+.w98-sm-sidebar span { color: #fff; font-weight: bold; font-size: 14px; writing-mode: vertical-rl; transform: rotate(180deg); position: absolute; bottom: 6px; left: 3px; letter-spacing: 1px; }
+.w98-sm-items { margin-left: 22px; padding: 2px 0; }
+.w98-sm-item { padding: 6px 10px; cursor: pointer; font-size: 11px; display: flex; align-items: center; gap: 8px; text-decoration: none; color: #000; }
+.w98-sm-item:hover { background: #000080; color: #fff; }
+.w98-sm-sep { border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 2px 24px 2px 24px; }
+.w98-cursor { display: inline-block; width: 1px; height: 13px; background: #000; animation: w98blink 1s step-end infinite; vertical-align: text-bottom; }
+@keyframes w98blink { 50%{opacity:0} }
+#shuffle-btn { background: #c0c0c0; color: #808080; border: 1px solid #808080; bottom: 40px; }
+`,
+html: `
+<div class="w98-desktop">
+    <a class="w98-icon" href="${LINKEDIN}" target="_blank">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#0077B5"/><text x="6" y="24" font-size="22" font-family="Arial" font-weight="bold" fill="#fff">in</text></svg>
+        <span class="w98-icon-label">LinkedIn</span>
+    </a>
+</div>
+<div class="w98-win">
+    <div class="w98-titlebar">
+        <span>about_me.txt - Notepad</span>
+        <div class="w98-titlebar-btns"><button>_</button><button>&#9633;</button><button>X</button></div>
+    </div>
+    <div class="w98-menu"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+    <div class="w98-notepad">========================================
+          Viktor Esadze
+========================================
+
+Hello, World!
+
+Thanks for visiting my page.
+You can find me here:
+
+  <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a>
+  <a href="mailto:${EMAIL}">${EMAIL}</a>
+
+- - - - - - - - - - - - - - - - - - - -
+
+Last updated: 2026
+Have a great day. :)<span class="w98-cursor"></span></div>
+    <div class="w98-statusbar"><div>Ln 1, Col 1</div><div>Windows 98</div></div>
+</div>
+<div class="w98-startmenu" id="w98startmenu">
+    <div class="w98-sm-sidebar"><span>Viktor98</span></div>
+    <div class="w98-sm-items">
+        <a class="w98-sm-item" href="${LINKEDIN}" target="_blank">&#128279; LinkedIn</a>
+        <a class="w98-sm-item" href="mailto:${EMAIL}">&#9993; Email</a>
+        <div class="w98-sm-sep"></div>
+        <a class="w98-sm-item" href="#">&#128196; About Me</a>
+        <a class="w98-sm-item" href="#">&#128187; My Computer</a>
+        <div class="w98-sm-sep"></div>
+        <div class="w98-sm-item" style="color:#888;">&#9211; Shut Down...</div>
+    </div>
+</div>
+<div class="w98-taskbar">
+    <button class="w98-start" id="w98startbtn">
+        <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" fill="#F00"/><rect x="9" y="1" width="6" height="6" fill="#0A0"/><rect x="1" y="9" width="6" height="6" fill="#00F"/><rect x="9" y="9" width="6" height="6" fill="#FC0"/></svg>
+        Start
+    </button>
+    <div class="w98-taskdiv"></div>
+    <button class="w98-taskbtn">about_me.txt - Notepad</button>
+    <div class="w98-clock"><span id="w98clock">12:00 AM</span></div>
+</div>
+`,
+init: function() {
+    var el = document.getElementById('w98clock');
+    if (!el) return;
+    function tick() {
+        var d = new Date(), h = d.getHours(), m = d.getMinutes(), ap = h>=12?'PM':'AM';
+        h = h%12||12; el.textContent = h+':'+(m<10?'0':'')+m+' '+ap;
+    }
+    tick(); setInterval(tick, 30000);
+    var startBtn = document.getElementById('w98startbtn');
+    var startMenu = document.getElementById('w98startmenu');
+    if (startBtn && startMenu) {
+        startBtn.addEventListener('click', function(e) { e.stopPropagation(); startMenu.classList.toggle('open'); });
+        document.addEventListener('click', function() { startMenu.classList.remove('open'); });
+        startMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+    }
+}
+}
+
+];
+
+var currentIndex = 0;
+
+function applyStyle(index) {
+    currentIndex = index;
+    var s = styles[index];
+    document.getElementById('page').innerHTML = s.html;
+    document.getElementById('dynamic-css').textContent = s.css;
+    if (s.init) s.init();
+}
+
+function shuffle() {
+    var next;
+    do { next = Math.floor(Math.random() * styles.length); } while (next === currentIndex);
+    applyStyle(next);
+}
+
+var styleEl = document.createElement('style');
+styleEl.id = 'dynamic-css';
+document.head.appendChild(styleEl);
+
+applyStyle(0);
+
+document.getElementById('shuffle-btn').addEventListener('click', shuffle);
+</script>
+</body>
+</html>
