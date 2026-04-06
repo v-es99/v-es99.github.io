@@ -719,10 +719,13 @@ init: function() {
 var currentIndex = 0;
 var remaining = [];
 
+var isMobile = window.innerWidth <= 768;
 function fillBag() {
     remaining = [];
     for (var i = 0; i < styles.length; i++) {
-        if (i !== currentIndex) remaining.push(i);
+        if (i === currentIndex) continue;
+        if (isMobile && (designNames[i] === 'win98' || designNames[i] === 'fo')) continue;
+        remaining.push(i);
     }
     for (var j = remaining.length - 1; j > 0; j--) {
         var k = Math.floor(Math.random() * (j + 1));
