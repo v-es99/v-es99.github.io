@@ -192,22 +192,28 @@ html, body {
 // Scale entire UI from 2560px reference
 function rescale() {
     var wrap = document.getElementById('scale-wrap');
-    if (window.innerWidth >= 2560) {
+    var face = document.querySelector('.face');
+    var w = window.innerWidth;
+
+    // Face scales below 2200
+    if (w < 2200) {
+        var fs = w / 2200;
+        face.style.transform = 'translate(-50%, -50%) scale(' + (0.8 * fs) + ')';
+    } else {
+        face.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    }
+
+    // Rest scales below 1600
+    if (w >= 1600) {
         wrap.style.transform = 'none';
         wrap.style.width = '100%';
         wrap.style.height = '100vh';
-        return;
+    } else {
+        var s = w / 1600;
+        wrap.style.width = '1600px';
+        wrap.style.transform = 'scale(' + s + ')';
+        wrap.style.height = (window.innerHeight / s) + 'px';
     }
-    if (window.innerWidth >= 1400) {
-        wrap.style.transform = 'none';
-        wrap.style.width = '100%';
-        wrap.style.height = '100vh';
-        return;
-    }
-    var s = window.innerWidth / 1400;
-    wrap.style.width = '1400px';
-    wrap.style.transform = 'scale(' + s + ')';
-    wrap.style.height = (window.innerHeight / s) + 'px';
 }
 rescale();
 window.addEventListener('resize', rescale);
