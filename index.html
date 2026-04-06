@@ -17,14 +17,16 @@ body { min-height: 100vh; transition: all 0.3s; overflow: hidden; }
     cursor: pointer;
     font-size: 12px;
     z-index: 9999;
-    border: 1px solid #ccc;
-    background: #f5f5f5;
-    color: #666;
+    border: 1px solid #888;
+    background: #c0c0c0;
+    color: #222;
     font-family: 'Courier New', monospace;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    opacity: 0.9;
+    transition: opacity 0.2s, background 0.2s;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
-#shuffle-btn:hover { opacity: 1; }
+#shuffle-btn:hover { opacity: 1; background: #b5b5b5; }
 </style>
 </head>
 <body>
@@ -636,7 +638,10 @@ init: function() {
         });
     }
 }
-}
+},
+
+// 12 — Fallout 2 (separate page)
+{ redirect: 'fo.html' }
 
 ];
 
@@ -664,7 +669,13 @@ function applyStyle(index) {
 
 function shuffle() {
     if (remaining.length === 0) fillBag();
-    applyStyle(remaining.pop());
+    var next = remaining.pop();
+    // Fallout 2 is a full page — redirect
+    if (styles[next] && styles[next].redirect) {
+        window.location.href = styles[next].redirect;
+        return;
+    }
+    applyStyle(next);
 }
 
 var styleEl = document.createElement('style');

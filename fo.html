@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fallout 2</title>
+<script src="assets.js"></script>
+<style>
+/* font loaded via assets.js */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #000;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-family: 'Fallout', monospace;
+}
+
+/* Scaling wrapper — everything inside scales from 2560px reference */
+#scale-wrap {
+    width: 2560px;
+    height: 100vh;
+    transform-origin: top left;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === WORLD === */
+.world {
+    flex: 1;
+    background: #1e1a12 center center / cover no-repeat; /* image set via assets.js */
+    position: relative;
+}
+
+/* === FACE === */
+.face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.face img {
+    display: block;
+}
+
+/* === DIALOG === */
+.dialog-box {
+    position: absolute;
+    top: 48%;
+    left: 20.5%;
+    width: 59%;
+    height: 35%;
+    padding: 6px 10px;
+    overflow: hidden;
+}
+
+.dialog-text {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    right: 10px;
+    height: 35%;
+    color: #30c030;
+    font-family: 'Fallout', monospace;
+    font-size: 16px;
+    line-height: 1.3;
+    overflow-y: auto;
+    padding-bottom: 4px;
+    text-indent: 20px;
+}
+
+.dialog-text a {
+    color: #50e050;
+    text-decoration: none;
+}
+.dialog-text a:hover {
+    text-shadow: 0 0 6px rgba(80,224,80,0.5);
+}
+
+.dialog-opts {
+    position: absolute;
+    top: 65%;
+    left: 10px;
+    right: 10px;
+    overflow: hidden;
+}
+
+.dialog-opt {
+    color: #30c030;
+    font-family: 'Fallout', monospace;
+    font-size: 16px;
+    padding: 2px 0;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.dialog-opt:hover {
+    color: #60ff60;
+    text-shadow: 0 0 4px rgba(96,255,96,0.4);
+}
+
+/* === STATIC TEXT === */
+.static-text {
+    position: absolute;
+    top: 27%;
+    left: 3.5%;
+    color: #30c030;
+    font-family: 'Fallout', monospace;
+    font-size: 12.5px;
+    text-shadow: 0 0 3px rgba(48,192,48,0.3);
+    z-index: 10;
+    line-height: 1.1;
+}
+
+/* === BOTTOM BAR === */
+.bottom-bar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #3a3632;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.bottom-side {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+}
+
+.bottom-side img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bottom-side-left {
+    justify-content: flex-end;
+}
+
+.bottom-side-right {
+    justify-content: flex-end;
+    transform: scaleX(-1);
+}
+
+.bottom-center {
+    flex-shrink: 0;
+}
+
+.bottom-center img {
+    display: block;
+    height: auto;
+}
+
+#shuffle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 9999;
+    border: 1px solid #5a4e38;
+    background: #2a2010;
+    color: #6a5a3a;
+    font-family: 'Fallout', monospace;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+#shuffle-btn:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="scale-wrap">
+    <div class="world">
+        <div class="face">
+            <img src="" data-asset="face" alt="">
+            <div class="dialog-box">
+                <div class="dialog-text" id="dialog-text"></div>
+                <div class="dialog-opts" id="dialog-opts"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="bottom-side bottom-side-left">
+            <img src="" data-asset="bottomleftright" alt="">
+        </div>
+        <div class="bottom-center" style="position:relative;">
+            <img src="" data-asset="bottom" alt="">
+            <div class="static-text"><span style="font-size:18px">&#9679;</span>Game Loaded<br><span style="padding-left:1px;font-size:18px">&#9679;</span>You notice nothing out of the ordinary<br><span style="padding-left:2px;font-size:18px">&#9679;</span>For discovering this page, you earn 200 exp. points.<br><span style="padding-left:3px;font-size:18px">&#9679;</span>You feel lucky</div>
+        </div>
+        <div class="bottom-side bottom-side-right">
+            <img src="" data-asset="bottomleftright" alt="">
+        </div>
+    </div>
+</div>
+
+<button id="shuffle-btn" onclick="window.location.href='index.html'">I don't like the design</button>
+
+<script>
+// Apply assets from assets.js
+(function() {
+    // Font
+    var style = document.createElement('style');
+    style.textContent = "@font-face { font-family: 'Fallout'; src: url('" + ASSETS.font + "') format('truetype'); }";
+    document.head.appendChild(style);
+    // Images
+    document.querySelector('.world').style.backgroundImage = "url('" + ASSETS.back + "')";
+    document.querySelector('.face img').src = ASSETS.face;
+    document.querySelector('.bottom-center img').src = ASSETS.bottom;
+    var sides = document.querySelectorAll('.bottom-side img');
+    sides[0].src = ASSETS.bottomleftright;
+    sides[1].src = ASSETS.bottomleftright;
+})();
+
+// Scale entire UI from 2560px reference
+function rescale() {
+    var wrap = document.getElementById('scale-wrap');
+    var face = document.querySelector('.face');
+    var w = window.innerWidth;
+
+    // Face scales below 2000
+    if (w < 2000) {
+        var fs = w / 2000;
+        face.style.transform = 'translate(-50%, -50%) scale(' + (0.8 * fs) + ')';
+    } else {
+        face.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    }
+
+    // Rest scales below 1800
+    if (w >= 1800) {
+        wrap.style.transform = 'none';
+        wrap.style.width = '100%';
+        wrap.style.height = '100vh';
+    } else {
+        var s = w / 1800;
+        wrap.style.width = '1800px';
+        wrap.style.transform = 'scale(' + s + ')';
+        wrap.style.height = (window.innerHeight / s) + 'px';
+    }
+}
+rescale();
+window.addEventListener('resize', rescale);
+
+var SND_CLICK = new Audio(ASSETS.sndClick);
+var SND_INT = new Audio(ASSETS.sndInt);
+function playClick() { SND_CLICK.currentTime=0; SND_CLICK.play().catch(function(){}); }
+function playInt() { SND_INT.currentTime=0; SND_INT.play().catch(function(){}); }
+
+var text = document.getElementById('dialog-text');
+var opts = document.getElementById('dialog-opts');
+
+var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
+var EMAIL = 'viktoresadze@gmail.com';
+
+var tree = {
+    root: {
+        npc: "Enclave field office. Sergeant Harris, Communications. State your business. I don't have all day.",
+        options: [
+            { label: "1. I'm looking for someone. Viktor Esadze.", goto: 'service' },
+            { label: '2. What is this place?', goto: 'place' },
+            { label: '3. [Leave] Nothing. Bye.', goto: 'leave' }
+        ]
+    },
+
+    service: {
+        npc: 'Esadze? Hold on. <em>He flips through a stack of files.</em> Yeah. Got something here. What do you need? Leave a transmission, he\'ll get it. Eventually.',
+        options: [
+            { label: '1. [Access network file]', link: LINKEDIN },
+            { label: '2. [Send transmission \u2014 ' + EMAIL + ']', mailto: EMAIL },
+            { label: '3. Anything classified?', goto: 'classified1' },
+            { label: '4. [Back]', goto: 'root' }
+        ]
+    },
+
+    classified1: {
+        npc: "That's above your clearance.",
+        options: [
+            { label: '1. [Insist] Come on.', goto: 'classified2' },
+            { label: '2. [Back]', goto: 'service' }
+        ]
+    },
+
+    classified2: {
+        npc: "Civilian, I said no. Don't make me throw you out of here.",
+        options: [
+            { label: "1. [Insist harder] Aren't you bored to the death here?", goto: 'classified3' },
+            { label: '2. [Back]', goto: 'service' }
+        ]
+    },
+
+    classified3: {
+        npc: '<em>He sighs. Slides a memo across the desk.</em><br><span style="display:block;height:6px"></span>MEMO #4772: To whoever keeps leaving Nuka-Cola Quantum in the shared fridge \u2014 it is GLOWING through the door and keeping night shift awake. FINAL warning. \u2014 Facilities Mgmt.',
+        options: [
+            { label: "1. ...that's the classified file?", goto: 'thatsit' }
+        ]
+    },
+
+    thatsit: {
+        npc: "What did you expect? The whole operation runs on one HTML file and a prayer. Happy now?",
+        options: [
+            { label: "1. [Intelligence 8] You're breaking character.", goto: 'intcheck' },
+            { label: '2. Noted.', goto: 'service' }
+        ]
+    },
+
+    intcheck: {
+        npc: "Keep your voice down. The last guy who noticed got 404'd. You understand? Just take the file and go.",
+        options: [
+            { label: '1. [Nod and walk away]', goto: 'service' }
+        ]
+    },
+
+    place: {
+        npc: "Field office. Communications division. We keep the lights on. Mostly.",
+        options: [
+            { label: "1. I'm looking for someone. Viktor Esadze.", goto: 'service' },
+            { label: '2. [Leave]', goto: 'leave' }
+        ]
+    },
+
+    leave: {
+        npc: "Door's behind you, civilian.",
+        options: [
+            { label: '1. [Talk again]', goto: 'root' }
+        ]
+    }
+};
+
+var staticText = document.querySelector('.static-text');
+var memoFound = false;
+
+function render(nodeId) {
+    var node = tree[nodeId];
+    text.innerHTML = node.npc;
+    if (nodeId === 'classified3' && !memoFound) {
+        memoFound = true;
+        staticText.innerHTML += '<br><span style="padding-left:4px;font-size:18px">\u25CF</span>For finding a classified memo, you earn 400 exp. points.';
+    }
+    opts.innerHTML = '';
+    node.options.forEach(function(o) {
+        var a = document.createElement('a');
+        a.className = 'dialog-opt';
+        a.textContent = o.label;
+        if (o.link) {
+            a.href = o.link;
+            a.target = '_blank';
+        } else if (o.mailto) {
+            a.href = 'mailto:' + o.mailto;
+        } else {
+            a.setAttribute('data-goto', o.goto);
+        }
+        opts.appendChild(a);
+    });
+}
+
+opts.addEventListener('click', function(e) {
+    var opt = e.target.closest('.dialog-opt');
+    if (!opt) return;
+    var gt = opt.getAttribute('data-goto');
+    if (gt) {
+        e.preventDefault();
+        if (gt === 'intcheck') { playInt(); } else { playClick(); }
+        render(gt);
+    }
+});
+
+render('root');
+</script>
+
+</body>
+</html>
