@@ -97,6 +97,13 @@ var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
 var EMAIL = 'viktoresadze@gmail.com';
 function t(e,d){try{umami.track(e,d)}catch(x){}}
 
+// Capture URL params then clean URL
+if (window.location.search) {
+    var params = Object.fromEntries(new URLSearchParams(window.location.search));
+    t('referral', params);
+    history.replaceState(null, '', '/');
+}
+
 // Track outbound link clicks
 document.addEventListener('click', function(e) {
     var a = e.target.closest('a[href]');
