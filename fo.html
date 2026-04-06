@@ -227,21 +227,23 @@ function rescale() {
     var face = document.querySelector('.face');
     var w = window.innerWidth;
 
-    // Face scales below 2000
-    if (w < 2000) {
-        var fs = w / 2000;
+    // Face scales below 1900, stops at 1200
+    var fw = Math.max(w, 1200);
+    if (fw < 1900) {
+        var fs = fw / 1900;
         face.style.transform = 'translate(-50%, -50%) scale(' + (0.8 * fs) + ')';
     } else {
         face.style.transform = 'translate(-50%, -50%) scale(0.8)';
     }
 
-    // Rest scales below 1800
-    if (w >= 1800) {
+    // Rest scales below 1800, stops at 1200
+    var rw = Math.max(w, 1200);
+    if (rw >= 1800) {
         wrap.style.transform = 'none';
         wrap.style.width = '100%';
         wrap.style.height = '100vh';
     } else {
-        var s = w / 1800;
+        var s = rw / 1800;
         wrap.style.width = '1800px';
         wrap.style.transform = 'scale(' + s + ')';
         wrap.style.height = (window.innerHeight / s) + 'px';
