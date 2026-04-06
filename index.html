@@ -95,6 +95,16 @@ body.fo-mode #shuffle-btn:hover { opacity: 1; background: #3a3020; }
 <script>
 var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
 var EMAIL = 'viktoresadze@gmail.com';
+function t(e,d){try{umami.track(e,d)}catch(x){}}
+
+// Track outbound link clicks
+document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (h && h.indexOf('linkedin') > -1) t('link-linkedin');
+    if (h && h.indexOf('mailto:') === 0) t('link-email');
+});
 
 var styles = [
 
@@ -213,6 +223,7 @@ init: function() {
         input.value = '';
         chat.scrollTop = chat.scrollHeight;
         icqSound();
+        t('icq-message-sent', {message: msg});
     }
     btn.addEventListener('click', send);
     input.addEventListener('keydown', function(e) { if (e.key==='Enter') send(); });
@@ -263,6 +274,7 @@ init: function() {
             var msg = this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');
             log.innerHTML += '<span class="time">['+ts+']</span> <span class="nick">&lt;visitor&gt;</span> '+msg+'<br>';
             this.value = '';
+            t('irc-message-sent', {message: msg});
             var replies = [
                 'lol',
                 'nice',
@@ -564,6 +576,7 @@ init: function() {
         var el = document.getElementById('gc-new-entries');
         el.innerHTML += '<div class="gc-gb-entry"><span class="gn">'+n+'</span><span class="gd">'+ds+'</span><div class="gm">'+m+'</div></div>';
         name.value = ''; msg.value = '';
+        t('geocities-guestbook-signed', {name: n, message: m});
     });
 }
 },
@@ -679,7 +692,7 @@ init: function() {
     var startBtn = document.getElementById('w98startbtn');
     var startMenu = document.getElementById('w98startmenu');
     if (startBtn && startMenu) {
-        startBtn.addEventListener('click', function(e) { e.stopPropagation(); startMenu.classList.toggle('open'); });
+        startBtn.addEventListener('click', function(e) { e.stopPropagation(); startMenu.classList.toggle('open'); t('w98-start-menu'); });
         document.addEventListener('click', function() { startMenu.classList.remove('open'); });
         startMenu.addEventListener('click', function(e) { e.stopPropagation(); });
     }
@@ -688,9 +701,9 @@ init: function() {
     if (shutdown && bsod) {
         shutdown.addEventListener('click', function() {
             startMenu.classList.remove('open');
-            bsod.style.display = 'block';
+            bsod.style.display = 'block'; t('w98-bsod');
             document.addEventListener('keydown', function handler() {
-                bsod.style.display = 'none';
+                bsod.style.display = 'none'; t('w98-bsod-dismiss');
                 document.removeEventListener('keydown', handler);
             });
         });
@@ -740,9 +753,11 @@ function hideFo() {
     document.body.classList.remove('fo-mode');
 }
 
+var designNames = ['readme','google','icq','irc','tumblr','phpbb','yahoo','geocities','win98','fo'];
 function applyStyle(index) {
     currentIndex = index;
     var s = styles[index];
+    t('design-shown', {design: designNames[index] || 'unknown'});
     if (s.fo) {
         showFo();
         return;
@@ -764,7 +779,7 @@ document.head.appendChild(styleEl);
 
 applyStyle(0);
 
-document.getElementById('shuffle-btn').addEventListener('click', shuffle);
+document.getElementById('shuffle-btn').addEventListener('click', function(){ t('shuffle-click'); shuffle(); });
 
 // Lazy-load assets.js
 (function() {
@@ -892,8 +907,10 @@ function initFo() {
     function foRender(nodeId) {
         var node = tree[nodeId];
         foText.innerHTML = node.npc;
+        t('fo-dialog', {node: nodeId});
         if (nodeId === 'classified3' && !memoFound) {
             memoFound = true;
+            t('fo-classified-memo');
             foStaticText.innerHTML += '<br><span style="padding-left:4px;font-size:18px">\u25CF</span>For finding a classified memo, you earn 400 exp. points.';
         }
         foOpts.innerHTML = '';
@@ -914,7 +931,7 @@ function initFo() {
         var gt = opt.getAttribute('data-goto');
         if (gt) {
             e.preventDefault();
-            if (gt === 'intcheck') { SND_INT.currentTime=0; SND_INT.play().catch(function(){}); }
+            if (gt === 'intcheck') { SND_INT.currentTime=0; SND_INT.play().catch(function(){}); t('fo-int-check'); }
             else { SND_CLICK.currentTime=0; SND_CLICK.play().catch(function(){}); }
             foRender(gt);
         }
