@@ -99,9 +99,11 @@ function t(e,d){try{umami.track(e,d)}catch(x){}}
 
 // Capture URL params then clean URL
 if (window.location.search) {
-    var params = Object.fromEntries(new URLSearchParams(window.location.search));
-    t('referral', params);
+    var _refParams = Object.fromEntries(new URLSearchParams(window.location.search));
     history.replaceState(null, '', '/');
+    window.addEventListener('load', function() {
+        setTimeout(function(){ t('referral', _refParams); }, 500);
+    });
 }
 
 // Track outbound link clicks
