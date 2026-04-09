@@ -100,9 +100,13 @@ function t(e,d){try{umami.track(e,d)}catch(x){}}
 // Capture URL params then clean URL
 if (window.location.search) {
     var _refParams = Object.fromEntries(new URLSearchParams(window.location.search));
+    var _hasL = Object.values(_refParams).some(function(v){ return v.indexOf('l') > -1; });
     history.replaceState(null, '', '/');
     window.addEventListener('load', function() {
-        setTimeout(function(){ t('referral', _refParams); }, 500);
+        setTimeout(function(){
+            t('referral', _refParams);
+            if (_hasL) window.location.href = 'https://www.linkedin.com/in/viktoresadze';
+        }, 500);
     });
 }
 
