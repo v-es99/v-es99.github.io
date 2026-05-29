@@ -110,6 +110,7 @@ body.fo-mode #shuffle-btn:hover { opacity: 1; background: #3a3020; }
 <script>
 var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
 var EMAIL = 'viktoresadze@gmail.com';
+var GITHUB = 'https://github.com/vesaias';
 function t(e,d){try{umami.track(e,d)}catch(x){}}
 
 // Capture URL params then clean URL (LinkedIn redirect already handled in <head>)
@@ -127,6 +128,7 @@ document.addEventListener('click', function(e) {
     if (!a) return;
     var h = a.getAttribute('href');
     if (h && h.indexOf('linkedin') > -1) t('link-linkedin');
+    if (h && h.indexOf('github') > -1) t('link-github');
     if (h && h.indexOf('mailto:') === 0) t('link-email');
 });
 
@@ -143,8 +145,20 @@ VIKTOR ESADZE
 ==============
 
 linkedin .. <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a>
-github .... <a href="https://github.com/vesaias" target="_blank">github.com/vesaias</a>
+github .... <a href="${GITHUB}" target="_blank">github.com/vesaias</a>
 email ..... <a href="mailto:${EMAIL}">${EMAIL}</a>
+
+SIDE PROJECTS
+-------------
+
+<a href="https://github.com/vesaias/JobNavigator" target="_blank">JobNavigator</a>
+  Self-hosted job search automation: AI scoring, multi-source
+  scraping, resume builder, Chrome extension, React dashboard.
+
+<a href="https://github.com/vesaias/SpecGen" target="_blank">SpecGen</a>
+  Turns any codebase into business documentation:
+  AI-generated technical and PM specs, exported to
+  Confluence or HTML.
 </pre>`
 },
 
@@ -175,6 +189,7 @@ html: `
 </div>
 <div class="g-links">
     <a href="${LINKEDIN}" target="_blank">LinkedIn</a>
+    <a href="${GITHUB}" target="_blank">GitHub</a>
     <a href="mailto:${EMAIL}">Email</a>
 </div>
 `
@@ -221,6 +236,7 @@ html: `
         <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:30</span><br>hey! welcome to my page</div>
         <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:30</span><br>you can find me here:</div>
         <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:31</span><br>linkedin: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a></div>
+        <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:31</span><br>github: <a href="${GITHUB}" target="_blank">github.com/vesaias</a></div>
         <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:31</span><br>email: <a href="mailto:${EMAIL}">${EMAIL}</a></div>
         <div class="icq-msg"><span class="icq-from icq-from-v">Viktor</span><span class="icq-time">11:32</span><br>feel free to say something :)</div>
     </div>
@@ -279,6 +295,7 @@ html: `
 <span class="time">[00:01]</span> <span class="server">-!-</span> topic: Viktor Esadze<br>
 <span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> hey<br>
 <span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> linkedin: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a><br>
+<span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> github: <a href="${GITHUB}" target="_blank">github.com/vesaias</a><br>
 <span class="time">[00:02]</span> <span class="nick">&lt;viktor&gt;</span> email: <a href="mailto:${EMAIL}">${EMAIL}</a><br>
 <span class="time">[00:03]</span> <span class="action">* viktor is away (afk)</span><br>
 </div>
@@ -365,6 +382,7 @@ html: `
         thinking about redesigning my website again
         <div class="tm-reblog"><b>anonymous</b> asked: where can people reach you?</div>
         linkedin: <a href="${LINKEDIN}" target="_blank" style="color:#35a7e0;">linkedin.com/in/viktoresadze</a><br>
+        github: <a href="${GITHUB}" target="_blank" style="color:#35a7e0;">github.com/vesaias</a><br>
         email: <a href="mailto:${EMAIL}" style="color:#35a7e0;">${EMAIL}</a>
     </div>
     <div class="tm-links">
@@ -402,6 +420,7 @@ html: `
         <tr><td class="bb-label">Posts:</td><td>4,721</td></tr>
         <tr><td class="bb-label">Joined:</td><td>06 Apr 2003</td></tr>
         <tr><td class="bb-label">Website:</td><td><a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a></td></tr>
+        <tr><td class="bb-label">GitHub:</td><td><a href="${GITHUB}" target="_blank">github.com/vesaias</a></td></tr>
         <tr><td class="bb-label">Email:</td><td><a href="mailto:${EMAIL}">${EMAIL}</a></td></tr>
     </table>
     <div class="bb-sig">-- Viktor Esadze</div>
@@ -435,6 +454,7 @@ html: `
         <div class="ya-best-label">&#10003; Best Answer - Chosen by Asker</div>
         <b>Viktor Esadze</b> is a person on the internet.<br><br>
         LinkedIn: <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a><br>
+        GitHub: <a href="${GITHUB}" target="_blank">github.com/vesaias</a><br>
         Email: <a href="mailto:${EMAIL}">${EMAIL}</a><br><br>
         <span class="ya-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <span style="font-size:11px;color:#888;">(1 rating)</span>
     </div>
@@ -533,6 +553,7 @@ html: `
             <div class="gc-nav-hdr">Navigation</div>
             <a href="#">Home</a><a href="#">About Me</a><a href="#">Links</a><a href="#">Guestbook</a>
             <a href="${LINKEDIN}" target="_blank">LinkedIn</a>
+            <a href="${GITHUB}" target="_blank">GitHub</a>
         </td>
         <td class="gc-content">
             <div class="gc-construction"><span>!! UNDER CONSTRUCTION !!</span></div>
@@ -543,6 +564,7 @@ html: `
             <div class="gc-section">Cool Links</div>
             <div class="gc-links">
                 <a href="${LINKEDIN}" target="_blank">My LinkedIn Profile</a>
+                <a href="${GITHUB}" target="_blank">My GitHub Page</a>
                 <a href="mailto:${EMAIL}">${EMAIL}</a>
             </div>
             <div class="gc-rainbow"></div>
@@ -651,6 +673,10 @@ html: `
         <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#0077B5"/><text x="6" y="24" font-size="22" font-family="Arial" font-weight="bold" fill="#fff">in</text></svg>
         <span class="w98-icon-label">LinkedIn</span>
     </a>
+    <a class="w98-icon" href="${GITHUB}" target="_blank">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#24292e"/><text x="4" y="23" font-size="18" font-family="Arial" font-weight="bold" fill="#fff">GH</text></svg>
+        <span class="w98-icon-label">GitHub</span>
+    </a>
 </div>
 <div class="w98-win">
     <div class="w98-titlebar">
@@ -668,6 +694,7 @@ Thanks for visiting my page.
 You can find me here:
 
   <a href="${LINKEDIN}" target="_blank">linkedin.com/in/viktoresadze</a>
+  <a href="${GITHUB}" target="_blank">github.com/vesaias</a>
   <a href="mailto:${EMAIL}">${EMAIL}</a>
 
 - - - - - - - - - - - - - - - - - - - -
@@ -691,6 +718,7 @@ Have a great day. :)<span class="w98-cursor"></span></div>
     <div class="w98-sm-sidebar"><span>Viktor98</span></div>
     <div class="w98-sm-items">
         <a class="w98-sm-item" href="${LINKEDIN}" target="_blank">&#128279; LinkedIn</a>
+        <a class="w98-sm-item" href="${GITHUB}" target="_blank">&#128187; GitHub</a>
         <a class="w98-sm-item" href="mailto:${EMAIL}">&#9993; Email</a>
         <div class="w98-sm-sep"></div>
         <div class="w98-sm-item" id="w98shutdown" style="color:#888;">&#9211; Shut Down...</div>
@@ -862,6 +890,7 @@ function initFo() {
     var SND_INT = new Audio(ASSETS.sndInt);
     var LINKEDIN = 'https://www.linkedin.com/in/viktoresadze';
     var EMAIL = 'viktoresadze@gmail.com';
+    var GITHUB = 'https://github.com/vesaias';
 
     var tree = {
         root: {
@@ -876,9 +905,10 @@ function initFo() {
             npc: 'Viktor Esadze? Hold on. Yeah, got something here. What do you need? You can also leave a transmission, he\'ll get it. Eventually.',
             options: [
                 { label: '1. [Access network file]', link: LINKEDIN },
-                { label: '2. [Send transmission \u2014 ' + EMAIL + ']', mailto: EMAIL },
-                { label: '3. Anything classified?', goto: 'classified1' },
-                { label: '4. [Back]', goto: 'root' }
+                { label: '2. [Pull code repository]', link: GITHUB },
+                { label: '3. [Send transmission \u2014 ' + EMAIL + ']', mailto: EMAIL },
+                { label: '4. Anything classified?', goto: 'classified1' },
+                { label: '5. [Back]', goto: 'root' }
             ]
         },
         classified1: {
